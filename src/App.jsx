@@ -356,7 +356,7 @@ function App() {
           <div className="d-flex justify-content-center">
             <nav>
               <ul className="pagination">
-                <li className="page-item">
+                <li className={`page-item ${!pageInfo.has_pre && "disabled"}`}>
                   <a className="page-link" href="#">
                     上一頁
                   </a>
@@ -372,7 +372,7 @@ function App() {
                   )
                 )}
 
-                <li className="page-item">
+                <li className={`page-item ${!pageInfo.has_next && "disabled"}`}>
                   <a className="page-link" href="#">
                     下一頁
                   </a>
