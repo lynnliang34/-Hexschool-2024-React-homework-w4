@@ -362,21 +362,15 @@ function App() {
                   </a>
                 </li>
 
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    3
-                  </a>
-                </li>
+                {Array.from({ length: pageInfo.total_pages }).map(
+                  (_, index) => (
+                    <li className="page-item" key={index}>
+                      <a className="page-link" href="#">
+                        {index + 1}
+                      </a>
+                    </li>
+                  )
+                )}
 
                 <li className="page-item">
                   <a className="page-link" href="#">
