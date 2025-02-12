@@ -348,6 +348,40 @@ function App() {
               </table>
             </div>
           </div>
+
+          <div className="d-flex justify-content-center">
+            <nav>
+              <ul className="pagination">
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    上一頁
+                  </a>
+                </li>
+
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    1
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    2
+                  </a>
+                </li>
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    3
+                  </a>
+                </li>
+
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    下一頁
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
       ) : (
         <div className="d-flex flex-column justify-content-center align-items-center vh-100">
