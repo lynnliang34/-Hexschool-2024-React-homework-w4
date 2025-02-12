@@ -294,6 +294,26 @@ function App() {
     getProducts(page);
   };
 
+  // 圖片上傳
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+
+    const formData = new FormData();
+    formData.append("file-to-upload", file);
+
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/api/${API_PATH}/admin/upload`,
+        formData
+      );
+
+      const uploadedImageUrl = res.data.imageUrl;
+      setTempProduct({ ...tempProduct, imageUrl: uploadedImageUrl });
+    } catch (error) {
+      alert("上傳圖片失敗");
+    }
+  };
+
   return (
     <>
       {isLogin ? (
@@ -472,6 +492,7 @@ function App() {
                       accept=".jpg,.jpeg,.png"
                       className="form-control"
                       id="fileInput"
+                      onChange={handleFileChange}
                     />
                   </div>
                   <div className="mb-4">
