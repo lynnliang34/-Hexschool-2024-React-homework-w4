@@ -462,6 +462,18 @@ function App() {
             <div className="modal-body p-4">
               <div className="row g-4">
                 <div className="col-md-4">
+                  <div className="mb-5">
+                    <label htmlFor="fileInput" className="form-label">
+                      {" "}
+                      圖片上傳{" "}
+                    </label>
+                    <input
+                      type="file"
+                      accept=".jpg,.jpeg,.png"
+                      className="form-control"
+                      id="fileInput"
+                    />
+                  </div>
                   <div className="mb-4">
                     <label htmlFor="primary-image" className="form-label">
                       主圖
