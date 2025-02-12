@@ -49,6 +49,7 @@ function App() {
     try {
       const res = await axios.get(`${BASE_URL}/api/${API_PATH}/admin/products`);
       setProductList(res.data.products);
+      setPageInfo(res.data.pagination);
     } catch (error) {
       console.error(error);
     }
@@ -282,6 +283,9 @@ function App() {
       alert("刪除產品失敗");
     }
   };
+
+  // 分頁狀態
+  const [pageInfo, setPageInfo] = useState({});
 
   return (
     <>
