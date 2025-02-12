@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 
-function LoginPage(getProducts) {
+// 環境變數
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+function LoginPage({ setIsLogin }) {
   // 存放登入時的帳號與密碼
   const [account, setAccount] = useState({
     username: "",
@@ -30,8 +33,7 @@ function LoginPage(getProducts) {
       document.cookie = `hexToken=${token}; expires=${new Date(expired)}`;
       axios.defaults.headers.common["Authorization"] = token;
 
-      await getProducts();
-      setIsLogin(true);
+      await setIsLogin(true);
     } catch (error) {
       alert("登入失敗");
     }
