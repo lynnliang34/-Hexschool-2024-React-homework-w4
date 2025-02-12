@@ -45,9 +45,11 @@ function App() {
 
   // 獲取產品列表
   // 向後端 API 取得產品列表，並更新 productList
-  const getProducts = async () => {
+  const getProducts = async (page = 1) => {
     try {
-      const res = await axios.get(`${BASE_URL}/api/${API_PATH}/admin/products`);
+      const res = await axios.get(
+        `${BASE_URL}/api/${API_PATH}/admin/products?page=${page}`
+      );
       setProductList(res.data.products);
       setPageInfo(res.data.pagination);
     } catch (error) {
@@ -287,6 +289,11 @@ function App() {
   // 分頁狀態
   const [pageInfo, setPageInfo] = useState({});
 
+  // 換頁功能
+  const handlePageChange = (page) => {
+    getProducts(page);
+  };
+
   return (
     <>
       {isLogin ? (
@@ -357,7 +364,11 @@ function App() {
             <nav>
               <ul className="pagination">
                 <li className={`page-item ${!pageInfo.has_pre && "disabled"}`}>
-                  <a className="page-link" href="#">
+                  <a
+                    onClick={() => handlePageChange(pageInfo.current_page - 1)}
+                    className="page-link"
+                    href="#"
+                  >
                     上一頁
                   </a>
                 </li>
@@ -370,7 +381,11 @@ function App() {
                       }`}
                       key={index}
                     >
-                      <a className="page-link" href="#">
+                      <a
+                        onClick={() => handlePageChange(index + 1)}
+                        className="page-link"
+                        href="#"
+                      >
                         {index + 1}
                       </a>
                     </li>
@@ -378,7 +393,11 @@ function App() {
                 )}
 
                 <li className={`page-item ${!pageInfo.has_next && "disabled"}`}>
-                  <a className="page-link" href="#">
+                  <a
+                    onClick={() => handlePageChange(pageInfo.current_page + 1)}
+                    className="page-link"
+                    href="#"
+                  >
                     下一頁
                   </a>
                 </li>
