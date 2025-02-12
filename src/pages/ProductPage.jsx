@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Modal } from "bootstrap";
 import Pagination from "../components/Pagination";
 import ProductModal from "../components/ProductModal";
+import DelProductModal from "../components/DelProductModal";
 
 // 環境變數
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -67,17 +68,14 @@ function ProductPage({ setIsLogin }) {
 
   //  ——————— 加入產品 Modal ———————
 
-  const delProductModalRef = useRef(null); // 控制刪除產品的 Modal
-  const [modalMode, setmodalMode] = useState(null); // 記錄當前 Modal 是 "create" 還是 "edit"
+  // 記錄當前 Modal 是 "create" 還是 "edit"
+  const [modalMode, setmodalMode] = useState(null);
 
-  // 初始化 Bootstrap Modal，關閉時不會自動加背景遮罩。
-  useEffect(() => {
-    new Modal(delProductModalRef.current, {
-      backdrop: false,
-    });
-  }, []);
-
+  // 產品 Modal 狀態是開或關
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+
+  // 刪除產品 Modal 狀態是開或關
+  const [isDelProductModalOpen, setIsDelProductModalOpen] = useState(false);
 
   // 打開產品 Modal
   const handleOpenProductModal = (mode, product) => {
@@ -105,47 +103,10 @@ function ProductPage({ setIsLogin }) {
   const handleOpenDelProductModal = (product) => {
     setTempProduct(product);
 
-    const modalInstance = Modal.getInstance(delProductModalRef.current);
-    modalInstance.show();
-  };
-
-  // 關閉刪除產品 Modal
-  const handleCloseDelProductModal = () => {
-    const modalInstance = Modal.getInstance(delProductModalRef.current);
-    modalInstance.hide();
+    setIsDelProductModalOpen(true);
   };
 
   const [tempProduct, setTempProduct] = useState(defaultModalState);
-
-  // 刪除產品
-  const deleteProduct = async () => {
-    try {
-      await axios.delete(
-        `${BASE_URL}/api/${API_PATH}/admin/product/${tempProduct.id}`,
-        {
-          data: {
-            ...tempProduct,
-            origin_price: Number(tempProduct.origin_price),
-            price: Number(tempProduct.price),
-            is_enabled: tempProduct.is_enabled ? 1 : 0,
-          },
-        }
-      );
-    } catch (error) {
-      alert("刪除產品失敗");
-    }
-  };
-
-  // 刪除產品確認鈕
-  const handleDeleteProduct = async () => {
-    try {
-      await deleteProduct();
-      getProducts();
-      handleCloseDelProductModal();
-    } catch (error) {
-      alert("刪除產品失敗");
-    }
-  };
 
   // 分頁狀態
   const [pageInfo, setPageInfo] = useState({});
@@ -231,48 +192,12 @@ function ProductPage({ setIsLogin }) {
         getProducts={getProducts}
       />
 
-      <div
-        ref={delProductModalRef}
-        className="modal fade"
-        id="delProductModal"
-        tabIndex="-1"
-        style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5">刪除產品</h1>
-              <button
-                onClick={handleCloseDelProductModal}
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              你是否要刪除
-              <span className="text-danger fw-bold">{tempProduct.title}</span>
-            </div>
-            <div className="modal-footer">
-              <button
-                onClick={handleCloseDelProductModal}
-                type="button"
-                className="btn btn-secondary"
-              >
-                取消
-              </button>
-              <button
-                onClick={handleDeleteProduct}
-                type="button"
-                className="btn btn-danger"
-              >
-                刪除
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DelProductModal
+        tempProduct={tempProduct}
+        isOpen={isDelProductModalOpen}
+        setIsOpen={setIsDelProductModalOpen}
+        getProducts={getProducts}
+      />
     </>
   );
 }
