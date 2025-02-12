@@ -364,7 +364,12 @@ function App() {
 
                 {Array.from({ length: pageInfo.total_pages }).map(
                   (_, index) => (
-                    <li className="page-item" key={index}>
+                    <li
+                      className={`page-item ${
+                        pageInfo.current_page === index + 1 && "active"
+                      }`}
+                      key={index}
+                    >
                       <a className="page-link" href="#">
                         {index + 1}
                       </a>
